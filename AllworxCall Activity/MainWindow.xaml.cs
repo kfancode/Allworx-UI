@@ -140,7 +140,36 @@ namespace AllworxCall_Activity
             return csvData;
      }
   
+        /*
+        private bool ImportCSV(string fileLocation)
+        {
+            string connetionString = null;
+            SqlConnection connection;
+            SqlCommand command;
+            string sql = null;
+
+            connetionString = @"Data Source=PIC-9R0QYZ1\LOCALSQL;Initial Catalog=Allworx;User ID=sa;Password=m0rpheus";
+            sql = "bulk insert [dbo].[chargedcalls] from " + fileLocation + " with (fieldterminator = ',',rowterminator = '\n')";
+
+            connection = new SqlConnection(connetionString);
+            try
+            {
+                connection.Open();
+                command = new SqlCommand(sql, connection);
+                command.ExecuteNonQuery();
+                command.Dispose();
+                connection.Close();
+                MessageBox.Show(" ExecuteNonQuery in SqlCommand executed !!");
+            }
+            catch (AmbiguousMatchException)
+            {
+                MessageBox.Show("Can not open connection ! ");
+            }
+
+            return true;
+        }*/
       
+
         private bool CreateCSV(HtmlDocument htmlSnippet)
         {
             int count = 0;
