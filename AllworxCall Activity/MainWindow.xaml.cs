@@ -157,27 +157,36 @@ namespace AllworxCall_Activity
                 {
                     for (int i = 0; i < nodestocall.Length; i++)
                     {
-                        foreach (HtmlNode outertag in htmlSnippet.DocumentNode.SelectNodes(nodestocall[count]))
+                        //  added this so we can check to see if there were calls made to each 800 number first
+                        //  this avoids null exception errors when an 800 number wasn't on the invoice
+                        var outertags = htmlSnippet.DocumentNode.SelectNodes(nodestocall[count]);
+                        if (outertags != null)
                         {
 
-                            foreach (HtmlNode tags in outertag.SelectNodes("div/table/tbody/tr"))
-                            {
-                                int fieldcount = 0;
-                                foreach (HtmlNode tag in tags.SelectNodes("td"))
+                            
+                           foreach (var outertag in outertags)
+                           //foreach (HtmlNode outertag in htmlSnippet.DocumentNode.SelectNodes(nodestocall[count]))
+                           {
+
+                                foreach (HtmlNode tags in outertag.SelectNodes("div/table/tbody/tr"))
                                 {
-                                    if (fieldcount < 8)
+                                    int fieldcount = 0;
+                                    foreach (HtmlNode tag in tags.SelectNodes("td"))
                                     {
-                                        sw.Write(tag.InnerText + ","); 
+                                        if (fieldcount < 8)
+                                        {
+                                            sw.Write(tag.InnerText + ",");
+                                        }
+                                        else
+                                        {
+                                            sw.Write(tag.InnerText);
+                                        }
+
+                                        fieldcount++;
                                     }
-                                    else
-                                    {
-                                        sw.Write(tag.InnerText);
-                                    }
-                                    
-                                    fieldcount++;
+                                    sw.WriteLine();
                                 }
-                                sw.WriteLine();
-                            }
+                           }
                         }
                         count++;
                     }  
