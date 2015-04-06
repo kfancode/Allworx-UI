@@ -21,9 +21,26 @@ group by calltype
 --  and charge <> '$0.00'
 
 
-select calldate,calltime,calltype,placedto,placedfrom,cast(duration as numeric(7,2)),rate,duration * 0.0250 'Our Charge',acctcode
+select 
+calldate,
+calltime,
+calltype,
+placedto,
+placedfrom,
+cast(duration as numeric(7,2)) 'Minutes',
+rate,
+
+case 
+when calltype = 'domestic' then duration * 0.0250
+when calltype = 'incoming toll free' then duration * 0.0400
+end 'Our Charge',
+--duration * 0.0250 'Our Charge',
+acctcode
 from chargedcalls
-where calltype in ('domestic')
+where calltype in ('Incoming Toll Free','domestic')
+order by calltype
+
+
 
 
 
@@ -35,6 +52,8 @@ calltype = 'domestic'
   and charge = '$0.00'
 
   select distinct calltype from chargedcalls
+
+  delete from chargedcalls where 1=1
 
  
 
