@@ -39,6 +39,8 @@ from chargedcalls
 where calltype in ('Incoming Toll Free','domestic')
 order by calltype
 
+
+/*****   use the following to remove entries from DB - needs to be done before running totals for month  ******/
 delete from chargedcalls where 1=1
 
 
