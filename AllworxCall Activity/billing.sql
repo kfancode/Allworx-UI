@@ -9,11 +9,15 @@ This is because the call length is either 0.1 or 0.  Multiply that by the 0.0250
 ****/
 
 
-/***   Run this to get the domestic calls totals   ***/
-select cast(sum(duration) as numeric(7,2)) 'Minutes', round(sum(cast(duration as numeric(7,2)) * 0.0250),2) 'Our Total'
+/***   Run this to get the totals - use to check totals making sure they match invoice  ***/
+select cast(sum(duration) as numeric(7,2)) 'Minutes',
+case
+when calltype = 'domestic' then round(sum(cast(duration as numeric(7,2)) * 0.0250),2)
+when calltype = 'incoming toll free' then round(sum(cast(duration as numeric(7,2)) * 0.0400),2)
+end  'Our Total'
 from chargedcalls
 where
-calltype in ('domestic')
+calltype in ('domestic','Incoming Toll Free')
 group by calltype
 
 
@@ -34,6 +38,8 @@ acctcode
 from chargedcalls
 where calltype in ('Incoming Toll Free','domestic')
 order by calltype
+
+delete from chargedcalls where 1=1
 
 
 
