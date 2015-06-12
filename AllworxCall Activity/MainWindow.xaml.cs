@@ -92,6 +92,7 @@ namespace AllworxCall_Activity
                      s.DestinationTableName = "chargedcalls";
                      s.WriteToServer(csvFileData);
                  }
+                 dbConnection.Close();
              }
 
             lblStatus.Content = "Database has been loaded.  Complete.";
@@ -198,6 +199,66 @@ namespace AllworxCall_Activity
                 lblStatus.Content = "The output file already exists.  Delete and try again.";
             }
             return true;   
+        }
+
+        private void btnOutCheck_Click(object sender, RoutedEventArgs e)
+        {
+            string[] knownFromNumbers = new string[22] { "(401) 433-3100", "(401) 434-4547", "(401) 434-8599", "(401) 725-8060", "(401) 732-1244", "(401) 732-3226", "(401) 732-3700", "(401) 737-5200", "(401) 738-7856", "(401) 738-8333", "(401) 765-1320", "(401) 785-1161", "(401) 827-9971", "(401) 847-3110", "(401) 849-2700", "(401) 942-5585", "(401) 942-6768", "(401) 943-7131", "(860) 225-2471", "(860) 229-0173", "(860) 229-7536", "(860) 229-8133" };
+            string[] knownToNumbers = new string[2] {"(401) 808-0834","(401) 276-6715"};
+            bool matched = false;
+            int i = 0;
+
+            using (SqlConnection dbConnection = new SqlConnection(@"Data Source=PIC-9R0QYZ1\LOCALSQL;Initial Catalog=Allworx;User ID=sa;Password=password"))
+            {
+                dbConnection.Open();
+                try
+                {
+                    SqlDataReader myReader = null;
+                    SqlCommand myCommand = new SqlCommand("select * from chargedcalls where calltype in ('domestic') order by calltype",
+                                                             dbConnection);
+                    myReader = myCommand.ExecuteReader();
+                    while (myReader.Read())
+                    {
+                        lblOutCheck.Content = "New record being evaluated";
+                        //Console.WriteLine(myReader["placedto"].ToString() + " was called from " + myReader["placedfrom"].ToString());
+                        while(matched == false)
+                        {
+                            lblOutCheck.Content = "Check started";
+                            Console.WriteLine(knownFromNumbers[i].ToString() + " matches " + myReader["placedfrom"].ToString());
+                            if (knownFromNumbers[i].ToString() == myReader["placedfrom"].ToString())
+                            {
+                                matched = true;
+                                i = 0;
+                            }
+                            else
+                            {
+                                if(i < knownFromNumbers.Length - 1)
+                                {
+                                    i++;
+                                }
+                                else
+                                {
+                                    i = 0;
+                                    matched = true; 
+                                    lblOutCheck.Content = "Found orphan";
+                                    using (StreamWriter w = File.AppendText(@"c:\exports\log.txt"))
+                                    {
+                                        w.WriteLine(myReader["placedto"].ToString() + " was called from " + myReader["placedfrom"].ToString());
+                                    }
+                                }
+                            }
+                        }
+                        matched = false;
+                    }
+                    lblOutCheck.Content = "Check complete";
+                }
+                catch (Exception d)
+                {
+                    Console.WriteLine(d.ToString());
+                }
+                dbConnection.Close();
+            }
+
         }
     }
 }

@@ -22,7 +22,10 @@ group by calltype
 
 
 /***   run the following to file to create the tab delimited file to import into Excel   ***/
-select 
+
+declare @phonenumber varchar(50) = '(215) 860-7985'
+
+select top 10
 calldate,
 calltime,
 calltype,
@@ -37,6 +40,7 @@ end 'Our Charge',
 acctcode
 from chargedcalls
 where calltype in ('Incoming Toll Free','domestic')
+--and placedto = @phonenumber or placedfrom = @phonenumber
 order by calltype
 
 
