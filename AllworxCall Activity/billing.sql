@@ -1,4 +1,28 @@
-﻿/****
+﻿With runningtotal as 
+(
+select 
+placedfrom,
+placedto,
+calldate,
+calltype,
+calltime,
+duration,
+sum(duration) over (partition by placedfrom) as durTotal,
+(sum(duration) over (partition by placedfrom)) * (cast(right(rate, len(rate)-1) as decimal(7,4))) as PropBill,
+(cast(right(rate, len(rate)-1) as decimal(7,4))) as myRate
+from chargedcalls
+where calltype in ('Incoming Toll Free','domestic')
+
+)
+
+select * from runningtotal
+--and placedto = @phonenumber or placedfrom = @phonenumber
+order by calltype
+
+
+
+
+/****
 
 
 There are domestic calls that have no charge.  These calls are included in the minutes total.
@@ -25,14 +49,14 @@ group by calltype
 
 declare @phonenumber varchar(50) = '(215) 860-7985'
 
-select top 10
+select 
 calldate,
 calltime,
 calltype,
 placedto,
 placedfrom,
 cast(duration as numeric(7,2)) 'Minutes',
-rate,
+right(rate, len(rate)-1) as rate,
 case 
 when calltype = 'domestic' then duration * 0.0250
 when calltype = 'incoming toll free' then duration * 0.0400

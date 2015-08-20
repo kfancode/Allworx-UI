@@ -5,6 +5,10 @@ VisualStudioVersion = 12.0.31101.0
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "AllworxCall Activity", "AllworxCall Activity\AllworxCall Activity.csproj", "{3DFBE706-C90D-4865-8E13-2B675159C6D9}"
 EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "Allworx.Lib", "Allworx.Lib\Allworx.Lib.csproj", "{11112502-5591-48D9-9886-A0432861467D}"
+EndProject
+Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "TestCaller", "TestCaller\TestCaller.csproj", "{8914775B-B711-4DF3-902A-9CAF541F546D}"
+EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -15,6 +19,14 @@ Global
 		{3DFBE706-C90D-4865-8E13-2B675159C6D9}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{3DFBE706-C90D-4865-8E13-2B675159C6D9}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{3DFBE706-C90D-4865-8E13-2B675159C6D9}.Release|Any CPU.Build.0 = Release|Any CPU
+		{11112502-5591-48D9-9886-A0432861467D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{11112502-5591-48D9-9886-A0432861467D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{11112502-5591-48D9-9886-A0432861467D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{11112502-5591-48D9-9886-A0432861467D}.Release|Any CPU.Build.0 = Release|Any CPU
+		{8914775B-B711-4DF3-902A-9CAF541F546D}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{8914775B-B711-4DF3-902A-9CAF541F546D}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{8914775B-B711-4DF3-902A-9CAF541F546D}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{8914775B-B711-4DF3-902A-9CAF541F546D}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
