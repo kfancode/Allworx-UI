@@ -14,10 +14,15 @@ from chargedcalls
 where calltype in ('Incoming Toll Free','domestic')
 
 )
-
+/*
 select * from runningtotal
---and placedto = @phonenumber or placedfrom = @phonenumber
+
 order by calltype
+*/
+select placedfrom, durtotal as Minutes, PropBill as Invoiced from runningtotal 
+group by placedfrom, durtotal, PropBill
+having propbill > 0
+--order by calltype
 
 
 
@@ -64,6 +69,7 @@ end 'Our Charge',
 acctcode
 from chargedcalls
 where calltype in ('Incoming Toll Free','domestic')
+--and placedfrom = '(303) 233-3910'
 --and placedto = @phonenumber or placedfrom = @phonenumber
 order by calltype
 
